@@ -514,7 +514,6 @@
             opacity: 0.4;
             margin-bottom: 0.5rem;
             transition: all 0.4s ease;
-            font-style: italic;
         }
 
         .area-item:hover .area-number {
@@ -540,7 +539,8 @@
 
         /* CTA STRIP */
         .cta-strip {
-            background-color: var(--accent-color);
+            background: linear-gradient(135deg, rgba(68, 45, 30, 0.85) 0%, rgba(42, 26, 14, 0.9) 100%), url('biblioteca.jpg') center/cover no-repeat;
+            background-attachment: scroll;
             padding: 4rem 5%;
             text-align: center;
         }
@@ -664,12 +664,37 @@
             margin-bottom: 3rem;
         }
 
-        .footer-logo img {
-            background-color: #ffffff;
-            padding: 1rem 1.5rem;
-            border-radius: 6px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            max-width: 220px;
+        .footer-logo-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            text-decoration: none;
+        }
+
+        .footer-logo-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--white);
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        .footer-logo-subtitle {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            color: #C2B09D;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-logo-text:hover .footer-logo-title,
+        .footer-logo-text:hover .footer-logo-subtitle {
+            color: var(--accent-color);
         }
 
         .footer-info {
@@ -833,6 +858,7 @@
 
             .cta-strip {
                 padding: 5rem 8%;
+                background-attachment: fixed;
             }
 
             .hero-container {
@@ -906,6 +932,10 @@
                 justify-content: space-between;
                 text-align: left;
                 align-items: center;
+            }
+
+            .footer-logo-text {
+                align-items: flex-start;
             }
 
             .footer-nav {
@@ -1096,9 +1126,10 @@
 
     <footer>
         <div class="footer-content">
-            <div class="logo-container footer-logo">
-                <img src="logo.png" alt="Danilo Rocco Advogados Associados" class="logo-img">
-            </div>
+            <a href="#" class="footer-logo-text" aria-label="Voltar ao início">
+                <span class="footer-logo-title">Danilo Rocco</span>
+                <span class="footer-logo-subtitle">Advogados Associados</span>
+            </a>
             <nav class="footer-nav">
                 <a href="#atuacao">Áreas de Atuação</a>
                 <a href="#sobre">Sobre</a>
