@@ -322,23 +322,62 @@
             position: fixed;
             bottom: 90px;
             right: 30px;
-            width: 54px;
+            z-index: 99;
             height: 54px;
+            min-width: 54px;
+            max-width: 54px;
             background-color: #25D366;
             color: var(--white);
-            border-radius: 50%;
+            border-radius: 30px;
             display: flex;
-            justify-content: center;
             align-items: center;
             box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
-            z-index: 99;
-            transition: all 0.3s ease;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* Fechamento suave sem dar o pulo reverso */
+            overflow: hidden;
+            text-decoration: none;
+            padding: 0;
+            border: 2px solid #25D366;
+            justify-content: flex-start;
         }
 
-        .whatsapp-float:hover {
-            background-color: #1ebe5d;
+        .whatsapp-float .wpp-icon {
+            flex-shrink: 0;
+            margin-left: 11px;
+            transition: fill 0.6s ease;
+            fill: var(--white);
+        }
+
+        .whatsapp-float .wpp-text {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            opacity: 0;
+            padding-left: 12px;
+            padding-right: 20px;
+            color: var(--text-primary);
+            transition: opacity 0.3s ease; /* Some rápido ao fechar */
+        }
+
+        .whatsapp-float:hover,
+        .whatsapp-float.expanded {
+            max-width: 320px;
+            background-color: var(--white);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
             transform: translateY(-3px);
-            box-shadow: 0 10px 28px rgba(37, 211, 102, 0.55);
+            transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1); /* Abertura longa e suave sem pulo */
+        }
+
+        .whatsapp-float:hover .wpp-icon,
+        .whatsapp-float.expanded .wpp-icon {
+            fill: #25D366;
+            transition: fill 0.9s ease;
+        }
+
+        .whatsapp-float:hover .wpp-text,
+        .whatsapp-float.expanded .wpp-text {
+            opacity: 1;
+            transition: opacity 0.5s ease 0.35s; /* Atraso para aparecer só depois que abrir */
         }
 
         /* SCROLL TO TOP BUTTON */
@@ -487,6 +526,7 @@
             display: flex;
             flex-direction: column;
             width: 100%;
+            list-style: none;
         }
 
         .area-item {
@@ -504,7 +544,10 @@
 
         .area-item:hover {
             background-color: rgba(194, 177, 159, 0.07);
-            padding-left: 0.5rem;
+        }
+
+        .area-item:hover > * {
+            transform: translateX(8px);
         }
 
         .area-number {
@@ -967,7 +1010,7 @@
             <img src="logo.png" alt="Danilo Rocco Advogados Associados" class="logo-img">
         </a>
 
-        <div class="hamburger" onclick="toggleMenu()">
+        <div class="hamburger" role="button" aria-label="Abrir menu" aria-expanded="false" tabindex="0" onclick="toggleMenu()" onkeypress="if(event.key === 'Enter') toggleMenu()">
             <div class="line1"></div>
             <div class="line2"></div>
             <div class="line3"></div>
@@ -1001,28 +1044,28 @@
         <span class="section-label reveal">Especialidades</span>
         <h2 class="section-title reveal">Atuamos onde sua empresa ou propriedade precisa de proteção</h2>
 
-        <div class="areas-list">
-            <div class="area-item reveal">
+        <ul class="areas-list">
+            <li class="area-item reveal">
                 <div class="area-number">01</div>
                 <h3 class="area-title">Direito Civil</h3>
                 <p class="area-desc">Contratos, responsabilidade civil e resolução de conflitos patrimoniais com rigor técnico e foco na melhor solução para o cliente.</p>
-            </div>
-            <div class="area-item reveal delay-1">
+            </li>
+            <li class="area-item reveal delay-1">
                 <div class="area-number">02</div>
                 <h3 class="area-title">Direito de Família</h3>
                 <p class="area-desc">Divórcio, inventário, guarda e planejamento sucessório com discrição, agilidade e eficiência.</p>
-            </div>
-            <div class="area-item reveal delay-2">
+            </li>
+            <li class="area-item reveal delay-2">
                 <div class="area-number">03</div>
                 <h3 class="area-title">Direito Trabalhista Empresarial</h3>
                 <p class="area-desc">Defesa exclusiva do empregador: gestão de passivo, compliance trabalhista e contencioso estratégico.</p>
-            </div>
-            <div class="area-item reveal delay-3">
+            </li>
+            <li class="area-item reveal delay-3">
                 <div class="area-number">04</div>
                 <h3 class="area-title">Direito Agrário</h3>
                 <p class="area-desc">Regularização fundiária, arrendamento, questões possessórias e contratos rurais na região norte do Paraná.</p>
-            </div>
-        </div>
+            </li>
+        </ul>
     </section>
 
     <div class="cta-strip">
@@ -1039,7 +1082,7 @@
 
         <div class="sobre-container">
             <div class="sobre-image-wrap reveal">
-                <img src="fachada.jpg" alt="Fachada do escritório Danilo Rocco Advogados Associados em Colorado, PR">
+                <img src="fachada.jpg" loading="lazy" alt="Fachada do escritório Danilo Rocco Advogados Associados em Colorado, PR">
             </div>
 
             <div class="sobre-text reveal">
@@ -1050,13 +1093,13 @@
 
             <div class="sobre-divider"></div>
 
-            <div class="sobre-stats reveal">
+            <div class="sobre-stats reveal" id="stats-container">
                 <div class="stat-item">
-                    <span class="stat-number">20+</span>
+                    <span class="stat-number"><span class="counter" data-target="20">0</span>+</span>
                     <span class="stat-label">anos de experiência</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">2003</span>
+                    <span class="stat-number counter" data-target="2003">0</span>
                     <span class="stat-label">início na advocacia</span>
                 </div>
                 <div class="stat-item">
@@ -1112,6 +1155,7 @@
 
             <div class="contato-map-wrapper reveal">
                 <iframe
+                    title="Mapa de localização do escritório em Colorado, PR"
                     src="https://www.google.com/maps?q=Rua+Santa+Catarina,+751,+Colorado+PR&output=embed"
                     width="100%"
                     height="100%"
@@ -1145,8 +1189,9 @@
         </div>
     </footer>
 
-    <a href="https://wa.me/554433233826" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Fale pelo WhatsApp">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+    <a href="https://wa.me/554433233826" target="_blank" rel="noopener noreferrer" class="whatsapp-float" id="whatsapp-float" aria-label="Fale pelo WhatsApp">
+        <svg class="wpp-icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        <span class="wpp-text">Dúvidas? Fale com um advogado agora</span>
     </a>
 
     <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Voltar ao topo">
@@ -1156,8 +1201,12 @@
     <script>
         function toggleMenu() {
             const header = document.querySelector('header');
+            const hamburger = document.querySelector('.hamburger');
             if (window.innerWidth < 1024) {
-                header.classList.toggle('nav-active');
+                const isActive = header.classList.toggle('nav-active');
+                if (hamburger) {
+                    hamburger.setAttribute('aria-expanded', isActive);
+                }
             }
         }
 
@@ -1205,30 +1254,105 @@
         // Active nav link on scroll
         const sections = document.querySelectorAll('section[id]');
         const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+        
+        let isTooltipLoopRunning = false;
+        let tooltipInterval;
+        let tooltipTimeout;
+
+        function startTooltipLoop(wppButton) {
+            if (isTooltipLoopRunning) return;
+            isTooltipLoopRunning = true;
+            
+            const cycle = () => {
+                wppButton.classList.add('expanded');
+                tooltipTimeout = setTimeout(() => {
+                    wppButton.classList.remove('expanded');
+                }, 5000); // 5s visível
+            };
+            
+            // Atraso de 5s antes da primeira expansão
+            tooltipTimeout = setTimeout(() => {
+                cycle();
+                tooltipInterval = setInterval(cycle, 20000); // 5s visível + 15s oculto = ciclo de 20s
+            }, 5000);
+        }
+
+        function stopTooltipLoop(wppButton) {
+            isTooltipLoopRunning = false;
+            clearInterval(tooltipInterval);
+            clearTimeout(tooltipTimeout);
+            wppButton.classList.remove('expanded');
+        }
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     navLinks.forEach(link => {
                         link.classList.toggle('nav-active', link.getAttribute('href') === '#' + entry.target.id);
                     });
+                    
+                    const wppButton = document.getElementById('whatsapp-float');
+                    if (wppButton) {
+                        if (entry.target.id === 'hero') {
+                            stopTooltipLoop(wppButton);
+                        } else {
+                            startTooltipLoop(wppButton);
+                        }
+                    }
                 }
             });
         }, { rootMargin: '-40% 0px -55% 0px' });
         sections.forEach(s => observer.observe(s));
 
-        function reveal() {
-            document.querySelectorAll('.reveal').forEach(el => {
-                const top = el.getBoundingClientRect().top;
-                const bottom = el.getBoundingClientRect().bottom;
-                if (top < window.innerHeight - 50 && bottom > 50) {
-                    el.classList.add('active');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
                 } else {
-                    el.classList.remove('active');
+                    entry.target.classList.remove('active');
                 }
             });
+        }, { rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // Number Counter Animation
+        const statsContainer = document.getElementById('stats-container');
+        if (statsContainer) {
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counters = entry.target.querySelectorAll('.counter');
+                        counters.forEach(counter => {
+                            const target = +counter.getAttribute('data-target');
+                            const initial = target > 1900 ? target - 50 : 0;
+                            const duration = 1000; // Animação de 1 segundo
+                            let start = null;
+                            
+                            const easeOutQuad = t => t * (2 - t);
+                            
+                            const step = (timestamp) => {
+                                if (!start) start = timestamp;
+                                const progress = Math.min((timestamp - start) / duration, 1);
+                                const current = initial + (target - initial) * easeOutQuad(progress);
+                                
+                                counter.innerText = Math.floor(current);
+                                
+                                if (progress < 1) {
+                                    window.requestAnimationFrame(step);
+                                } else {
+                                    counter.innerText = target;
+                                }
+                            };
+                            
+                            window.requestAnimationFrame(step);
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { rootMargin: '0px 0px -50px 0px' });
+            counterObserver.observe(statsContainer);
         }
-        window.addEventListener('scroll', reveal);
-        reveal();
     </script>
 </body>
 </html>
