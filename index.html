@@ -523,8 +523,9 @@
 
         /* ÁREAS DE ATUAÇÃO */
         .areas-list {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
             width: 100%;
             list-style: none;
         }
@@ -532,52 +533,72 @@
         .area-item {
             display: flex;
             flex-direction: column;
-            padding: 3rem 0;
-            border-bottom: 1px solid var(--subtle-color);
-            transition: all 0.4s ease;
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid rgba(194, 177, 159, 0.35);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
             cursor: default;
         }
 
-        .area-item:first-child {
-            border-top: 1px solid var(--subtle-color);
-        }
-
         .area-item:hover {
-            background-color: rgba(194, 177, 159, 0.07);
+            box-shadow: 0 8px 28px rgba(126, 89, 64, 0.13);
+            transform: translateY(-4px);
         }
 
-        .area-item:hover > * {
-            transform: translateX(8px);
+        .area-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background-color: rgba(126, 89, 64, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            flex-shrink: 0;
+            isolation: isolate;
+            overflow: hidden;
         }
 
-        .area-number {
-            font-family: var(--font-heading);
-            font-size: 2rem;
+        .area-icon svg {
+            width: 28px;
+            height: 28px;
             color: var(--accent-color);
-            opacity: 0.4;
-            margin-bottom: 0.5rem;
-            transition: all 0.4s ease;
         }
 
-        .area-item:hover .area-number {
-            opacity: 1;
+        .area-icon img {
+            width: 56px;
+            height: 56px;
+            object-fit: cover;
+            mix-blend-mode: multiply;
         }
 
         .area-title {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            transition: all 0.4s ease;
-        }
-
-        .area-item:hover .area-title {
-            color: var(--accent-color);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.6rem;
         }
 
         .area-desc {
             color: #555;
-            font-size: 1rem;
+            font-size: 0.92rem;
             line-height: 1.65;
-            transition: all 0.4s ease;
+            flex: 1;
+            margin-bottom: 1.25rem;
+        }
+
+        .area-link {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+        }
+
+        .area-link:hover {
+            text-decoration: underline;
         }
 
         /* CTA STRIP */
@@ -796,15 +817,6 @@
                 margin-bottom: 3rem;
             }
 
-            .area-number {
-                font-size: 2.5rem;
-                margin-bottom: 1rem;
-            }
-
-            .area-title {
-                font-size: 1.8rem;
-                margin-bottom: 0.75rem;
-            }
 
             .cta-strip h2 {
                 font-size: 1.8rem;
@@ -909,30 +921,6 @@
                 align-items: center;
             }
 
-            .area-item {
-                flex-direction: row;
-                align-items: center;
-                gap: 4rem;
-                padding: 3.5rem 1rem;
-            }
-
-            .area-number {
-                margin-bottom: 0;
-                width: 10%;
-                font-size: 3rem;
-            }
-
-            .area-title {
-                margin-bottom: 0;
-                width: 35%;
-                font-size: 2rem;
-            }
-
-            .area-desc {
-                width: 55%;
-                font-size: 1.05rem;
-            }
-
             .hamburger {
                 display: none;
             }
@@ -1030,7 +1018,7 @@
                 <h1 class="hero-title">Assessoria Jurídica Estratégica para Empresas e Produtores Rurais</h1>
                 <p class="hero-subtitle">Soluções jurídicas com foco em resultado. Técnica apurada e comprometimento real com o cliente.</p>
                 <div class="hero-buttons">
-                    <a href="https://wa.me/554433233826" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                    <a href="https://wa.me/5544999027981" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
                         Fale pelo WhatsApp
                     </a>
@@ -1046,22 +1034,30 @@
 
         <ul class="areas-list">
             <li class="area-item reveal">
-                <div class="area-number">01</div>
+                <div class="area-icon">
+                    <img src="Direito Civil.png" alt="Direito Civil">
+                </div>
                 <h3 class="area-title">Direito Civil</h3>
                 <p class="area-desc">Contratos, responsabilidade civil e resolução de conflitos patrimoniais com rigor técnico e foco na melhor solução para o cliente.</p>
             </li>
             <li class="area-item reveal delay-1">
-                <div class="area-number">02</div>
+                <div class="area-icon">
+                    <img src="Direito de familia.png" alt="Direito de Família">
+                </div>
                 <h3 class="area-title">Direito de Família</h3>
                 <p class="area-desc">Divórcio, inventário, guarda e planejamento sucessório com discrição, agilidade e eficiência.</p>
             </li>
             <li class="area-item reveal delay-2">
-                <div class="area-number">03</div>
+                <div class="area-icon">
+                    <img src="Direito do Trabalho.png" alt="Direito do Trabalho">
+                </div>
                 <h3 class="area-title">Direito Trabalhista Empresarial</h3>
                 <p class="area-desc">Defesa exclusiva do empregador: gestão de passivo, compliance trabalhista e contencioso estratégico.</p>
             </li>
             <li class="area-item reveal delay-3">
-                <div class="area-number">04</div>
+                <div class="area-icon">
+                    <img src="Direito Agrario.png" alt="Direito Agrário">
+                </div>
                 <h3 class="area-title">Direito Agrário</h3>
                 <p class="area-desc">Regularização fundiária, arrendamento, questões possessórias e contratos rurais na região norte do Paraná.</p>
             </li>
@@ -1071,7 +1067,7 @@
     <div class="cta-strip">
         <h2 class="reveal">Tem uma questão jurídica em aberto?</h2>
         <p class="reveal delay-1">Entre em contato e agende uma consulta. Atendimento ágil e orientado a resultado.</p>
-        <a href="https://wa.me/554433233826" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white reveal delay-2">
+        <a href="https://wa.me/5544999027981" target="_blank" rel="noopener noreferrer" class="btn btn-outline-white reveal delay-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
             Agendar Consulta
         </a>
@@ -1126,7 +1122,13 @@
                     <div class="info-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                     </div>
-                    <span>(44) 3323-3826</span>
+                    <span>Fixo: (44) 3323-3826</span>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                    </div>
+                    <a href="https://wa.me/5544999027981" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">WhatsApp: (44) 99902-7981</a>
                 </div>
                 <div class="info-item">
                     <div class="info-icon">
@@ -1147,7 +1149,7 @@
                     <span>Seg – Sex: 08h30 às 11h00 · 13h00 às 17h00</span>
                 </div>
 
-                <a href="https://wa.me/554433233826" target="_blank" rel="noopener noreferrer" class="btn btn-primary whatsapp-large">
+                <a href="https://wa.me/5544999027981" target="_blank" rel="noopener noreferrer" class="btn btn-primary whatsapp-large">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
                     Iniciar Conversa no WhatsApp
                 </a>
@@ -1189,7 +1191,7 @@
         </div>
     </footer>
 
-    <a href="https://wa.me/554433233826" target="_blank" rel="noopener noreferrer" class="whatsapp-float" id="whatsapp-float" aria-label="Fale pelo WhatsApp">
+    <a href="https://wa.me/5544999027981" target="_blank" rel="noopener noreferrer" class="whatsapp-float" id="whatsapp-float" aria-label="Fale pelo WhatsApp">
         <svg class="wpp-icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
         <span class="wpp-text">Dúvidas? Fale com um advogado agora</span>
     </a>
