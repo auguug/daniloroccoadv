@@ -793,6 +793,56 @@
             color: #666;
         }
 
+        /* CARROSSEL MOBILE — ÁREAS DE ATUAÇÃO */
+        @media (max-width: 767px) {
+            .areas-list {
+                overflow: hidden;
+                display: block;
+                position: relative;
+            }
+
+            .carousel-track {
+                display: flex;
+                gap: 1rem;
+                transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+                will-change: transform;
+            }
+
+            .area-item:hover {
+                transform: none;
+            }
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--subtle-color);
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background-color: var(--accent-color);
+            transform: scale(1.35);
+        }
+
+        @media (min-width: 768px) {
+            .carousel-dots {
+                display: none;
+            }
+        }
+
         /* DESKTOP MEDIA QUERIES */
         @media (min-width: 768px) {
             section {
@@ -1355,6 +1405,112 @@
             }, { rootMargin: '0px 0px -50px 0px' });
             counterObserver.observe(statsContainer);
         }
+        // Carrossel mobile — Áreas de Atuação
+        (function () {
+            var carouselTimer = null;
+            var currentPage = 0;
+            var totalPages = 0;
+            var dots = [];
+            var listEl = null;
+            var trackEl = null;
+            var initialized = false;
+
+            function goToPage(page) {
+                currentPage = (page + totalPages) % totalPages;
+                trackEl.style.transform = 'translateX(-' + (currentPage * listEl.offsetWidth) + 'px)';
+                dots.forEach(function(d, i) { d.classList.toggle('active', i === currentPage); });
+            }
+
+            function resetTimer() {
+                clearInterval(carouselTimer);
+                carouselTimer = setInterval(function() { goToPage(currentPage + 1); }, 10000);
+            }
+
+            function initCarousel() {
+                if (window.innerWidth >= 768) { destroyCarousel(); return; }
+                if (initialized) return;
+                initialized = true;
+
+                listEl = document.querySelector('.areas-list');
+                if (!listEl) return;
+
+                var items = Array.prototype.slice.call(listEl.querySelectorAll('.area-item'));
+                totalPages = Math.ceil(items.length / 2);
+                currentPage = 0;
+
+                // Criar track
+                trackEl = document.createElement('div');
+                trackEl.className = 'carousel-track';
+                items.forEach(function(item) { trackEl.appendChild(item); });
+                listEl.appendChild(trackEl);
+
+                // Definir largura dos itens em px para evitar conflito com %
+                var itemWidth = Math.floor((listEl.offsetWidth - 16) / 2);
+                items.forEach(function(item) {
+                    item.style.width = itemWidth + 'px';
+                    item.style.flexShrink = '0';
+                });
+
+                // Criar dots
+                var dotsContainer = document.createElement('div');
+                dotsContainer.className = 'carousel-dots';
+                dots = [];
+                for (var i = 0; i < totalPages; i++) {
+                    var dot = document.createElement('button');
+                    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+                    dot.setAttribute('aria-label', 'Página ' + (i + 1));
+                    (function(idx) {
+                        dot.addEventListener('click', function() { goToPage(idx); resetTimer(); });
+                    })(i);
+                    dotsContainer.appendChild(dot);
+                    dots.push(dot);
+                }
+                listEl.parentNode.insertBefore(dotsContainer, listEl.nextSibling);
+
+                // Swipe por toque
+                var touchStartX = 0;
+                trackEl.addEventListener('touchstart', function(e) {
+                    touchStartX = e.touches[0].clientX;
+                    resetTimer();
+                }, { passive: true });
+                trackEl.addEventListener('touchend', function(e) {
+                    var diff = touchStartX - e.changedTouches[0].clientX;
+                    if (Math.abs(diff) > 40) {
+                        goToPage(currentPage + (diff > 0 ? 1 : -1));
+                    }
+                }, { passive: true });
+
+                resetTimer();
+            }
+
+            function destroyCarousel() {
+                if (!initialized) return;
+                initialized = false;
+                clearInterval(carouselTimer);
+                if (trackEl && listEl) {
+                    var items = Array.prototype.slice.call(trackEl.querySelectorAll('.area-item'));
+                    items.forEach(function(item) {
+                        item.style.width = '';
+                        item.style.flexShrink = '';
+                        listEl.appendChild(item);
+                    });
+                    if (trackEl.parentNode) trackEl.parentNode.removeChild(trackEl);
+                    trackEl = null;
+                }
+                var dotsContainer = document.querySelector('.carousel-dots');
+                if (dotsContainer) dotsContainer.remove();
+                dots = [];
+                currentPage = 0;
+            }
+
+            document.addEventListener('DOMContentLoaded', initCarousel);
+
+            var resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(initCarousel, 200);
+            });
+        })();
     </script>
 </body>
 </html>
